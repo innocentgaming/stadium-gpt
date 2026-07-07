@@ -3,6 +3,13 @@
 import { Mail, MapPin, Shield, Calendar, Award, Clock } from 'lucide-react';
 
 export default function ProfilePage() {
+  const stats = [
+    { label: 'Role', value: 'Admin', icon: Shield },
+    { label: 'Joined', value: 'Jan 2026', icon: Calendar },
+    { label: 'Sessions', value: '342', icon: Clock },
+    { label: 'Actions', value: '12.4K', icon: Award },
+  ];
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
@@ -36,18 +43,40 @@ export default function ProfilePage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {[
-          { label: 'Role', value: 'Admin', icon: Shield },
-          { label: 'Joined', value: 'Jan 2026', icon: Calendar },
-          { label: 'Sessions', value: '342', icon: Clock },
-          { label: 'Actions', value: '12.4K', icon: Award },
-        ].map((stat) => (
+        {stats.map((stat) => (
           <div key={stat.label} className="glass rounded-xl p-4 text-center">
             <stat.icon className="w-5 h-5 text-blue-400 mx-auto mb-2" />
             <p className="text-lg font-bold font-heading">{stat.value}</p>
             <p className="text-xs text-text-muted">{stat.label}</p>
           </div>
         ))}
+      </div>
+
+      {/* Operations & AI Accreditation */}
+      <div className="glass rounded-xl p-5">
+        <h3 className="font-heading font-semibold text-sm mb-4">FIFA Accreditation & AI Clearance</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/5 space-y-2">
+            <h4 className="text-xs font-semibold text-blue-400">Accredited Zones</h4>
+            <div className="flex flex-wrap gap-1.5">
+              {['Command Center', 'Safety Control', 'Medical Bay', 'F&B Areas', 'Media Center'].map((zone) => (
+                <span key={zone} className="text-[10px] px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                  {zone}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/5 space-y-2">
+            <h4 className="text-xs font-semibold text-purple-400">Language Proficiencies</h4>
+            <div className="flex flex-wrap gap-1.5">
+              {['English (Native)', 'German (C1)', 'Mandarin (Fluent)', 'Arabic (Basic)'].map((lang) => (
+                <span key={lang} className="text-[10px] px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  {lang}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Recent Activity */}
