@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, staggerItem, fadeInUp } from '@/lib/animations';
 import {
-  Users, AlertTriangle, Activity, Leaf, Brain, Shield, Eye,
+  Users, AlertTriangle, Brain, Shield, Eye,
   TrendingUp, TrendingDown, Clock, Zap
 } from 'lucide-react';
+import { seededRandom } from '@/lib/utils';
 
 const stats = [
   { label: 'Active Fans', value: '94,218', change: '+12.3%', up: true, icon: Users, color: '#3b82f6' },
@@ -39,7 +40,7 @@ const agentStatus = [
 
 export default function CommandCenter() {
   const [liveStats, setLiveStats] = useState(stats);
-  const [liveAlerts, setLiveAlerts] = useState(recentAlerts);
+  const [liveAlerts] = useState(recentAlerts);
   const [agents, setAgents] = useState(agentStatus);
 
   useEffect(() => {
@@ -131,7 +132,7 @@ export default function CommandCenter() {
           <h3 className="font-heading font-semibold text-sm mb-4">Crowd Density — 24h</h3>
           <div className="h-48 flex items-end gap-1" role="img" aria-label="Bar chart showing crowd density levels over 24 hours.">
             {Array.from({ length: 48 }).map((_, i) => {
-              const height = 15 + Math.sin(i * 0.3) * 30 + Math.random() * 25 + (i > 20 && i < 35 ? 20 : 0);
+              const height = 15 + Math.sin(i * 0.3) * 30 + seededRandom(i) * 25 + (i > 20 && i < 35 ? 20 : 0);
               return (
                 <div key={i} className="flex-1 group relative">
                   <div

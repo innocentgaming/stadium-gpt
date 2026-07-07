@@ -2,8 +2,8 @@ import {
   Navigation, Shield, Stethoscope, Users, Accessibility, Languages,
   Settings, Leaf, MapPin, Mic, Armchair, UtensilsCrossed, Droplets,
   Baby, AlertTriangle, Flame, Eye, Bus, Car, Recycle, Heart, Gamepad2,
-  Star, Sparkles, Brain, Cpu, Database, Cloud, Radio, BarChart3,
-  Smartphone, Globe, Server, Lock, Wifi, Zap, MessageSquare,
+  Star, Sparkles, Brain, Database, Cloud, Radio, BarChart3,
+  Smartphone, Globe, Server, Lock, Zap, MessageSquare,
   HandHelping, Headphones, ScanFace,
 } from 'lucide-react';
 

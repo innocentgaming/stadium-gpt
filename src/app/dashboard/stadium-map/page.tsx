@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MapPin, Users, Car, UtensilsCrossed, Stethoscope } from 'lucide-react';
+import { MapPin, Car, UtensilsCrossed, Stethoscope } from 'lucide-react';
 
 const mapZones = [
   { id: 'north', label: 'North Stand', x: '50%', y: '10%', density: 87, status: 'high' },

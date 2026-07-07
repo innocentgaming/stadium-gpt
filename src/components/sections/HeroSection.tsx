@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Play, ArrowRight, Layers } from 'lucide-react';
 import GradientButton from '@/components/ui/GradientButton';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
+import { seededRandom } from '@/lib/utils';
 
 export default function HeroSection() {
   return (
@@ -116,7 +117,7 @@ export default function HeroSection() {
                         <div
                           key={i}
                           className="flex-1 bg-gradient-to-t from-blue-500 to-purple-500 rounded-t opacity-60"
-                          style={{ height: `${20 + Math.sin(i * 0.5) * 30 + Math.random() * 30}%` }}
+                          style={{ height: `${20 + Math.sin(i * 0.5) * 30 + seededRandom(i) * 30}%` }}
                         />
                       ))}
                     </div>

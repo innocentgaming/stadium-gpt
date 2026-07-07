@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, staggerItem } from '@/lib/animations';
+import { seededRandom } from '@/lib/utils';
 
 const initialZones = [
   { name: 'North Stand', density: 87, capacity: 22000, current: 19140, status: 'high' },
@@ -47,7 +48,7 @@ export default function CrowdAnalytics() {
         <h3 className="font-heading font-semibold text-sm mb-4">Stadium Heatmap</h3>
         <div className="grid grid-cols-12 gap-1 aspect-[2/1]">
           {Array.from({ length: 96 }).map((_, i) => {
-            const intensity = Math.random();
+            const intensity = seededRandom(i);
             return (
               <motion.div
                 key={i}

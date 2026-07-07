@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { staggerContainer, staggerItem } from '@/lib/animations';
+import { seededRandom } from '@/lib/utils';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { Leaf, Droplets, Zap, Recycle, Cloud } from 'lucide-react';
 
@@ -63,7 +64,7 @@ export default function SustainabilityDashboardPage() {
               <motion.div
                 className="w-full rounded-t bg-gradient-to-t from-green-500/60 to-emerald-400/40"
                 initial={{ height: 0 }}
-                animate={{ height: `${40 + i * 10 + Math.random() * 15}%` }}
+                animate={{ height: `${40 + i * 10 + seededRandom(i) * 15}%` }}
                 transition={{ duration: 1, delay: i * 0.1 }}
               />
               <span className="text-[10px] text-text-muted">{week}</span>

@@ -24,6 +24,7 @@ describe('Utility Functions - StadiumGPT', () => {
   // Test Number Formatting
   test('formatCompactNumber should format thousands and millions correctly', () => {
     expect(formatCompactNumber(94218)).toBe('94K');
+    expect(formatCompactNumber(1200)).toBe('1.2K');
     expect(formatCompactNumber(2300000)).toBe('2.3M');
     expect(formatCompactNumber(847)).toBe('847');
   });

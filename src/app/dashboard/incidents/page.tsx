@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertTriangle, CheckCircle, Clock, Filter, Search } from 'lucide-react';
+import { CheckCircle, Clock, Filter, Search } from 'lucide-react';
 
 const incidents = [
   { id: 'INC-2026-0147', type: 'Medical', severity: 'Critical', location: 'Section 205, Row J', status: 'Resolved', time: '14:23', date: '2026-07-06', response: '1.8 min', agent: 'Medical Agent' },
