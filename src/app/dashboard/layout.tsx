@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Sparkles, Menu, X, Bell, Search, ChevronDown } from 'lucide-react';
 import { dashboardNavItems } from '@/lib/constants';
+import MockStateWrapper from '@/components/ui/MockStateWrapper';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -131,7 +132,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Page Content */}
         <main id="main-content" className="flex-1 p-4 sm:p-6 overflow-y-auto">
-          {children}
+          <MockStateWrapper>
+            {children}
+          </MockStateWrapper>
         </main>
       </div>
     </div>
