@@ -1,137 +1,171 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Layers } from 'lucide-react';
+import { Play, ArrowRight, Layers, ShieldCheck, Cpu, Activity, Globe } from 'lucide-react';
 import GradientButton from '@/components/ui/GradientButton';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
-import { seededRandom } from '@/lib/utils';
+
+const partners = [
+  { name: 'FIFA Operations', type: 'Official Licensee' },
+  { name: 'Adidas Sports Tech', type: 'Data Partner' },
+  { name: 'Visa Payments', type: 'Concessions Integrator' },
+  { name: 'Hyundai Transit', type: 'Fleet Systems' },
+  { name: 'Qatar Airways', type: 'Travel Logistics' },
+];
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        {/* Grid */}
-        <div className="absolute inset-0 grid-pattern opacity-50" />
-        {/* Gradient Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '4s' }} />
-      </div>
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 bg-[#030712]">
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      {/* Subtle Premium Blur Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
-          className="text-center"
+          className="text-center space-y-8"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
         >
           {/* Badge */}
-          <motion.div variants={staggerItem} className="mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              FIFA World Cup 2026 — Live
+          <motion.div variants={staggerItem} className="flex justify-center">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 shadow-sm backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+              FIFA World Cup 2026 Operations
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Large Title */}
           <motion.h1
             variants={staggerItem}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight max-w-5xl mx-auto leading-[1.1] mb-6"
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold font-heading tracking-tight max-w-5xl mx-auto leading-[1.05] text-slate-100"
           >
-            The AI Operating System for{' '}
-            <span className="gradient-text">FIFA World Cup</span>{' '}
-            Stadiums
+            AI Operating System for{' '}
+            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+              FIFA World Cup 2026
+            </span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             variants={staggerItem}
-            className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed"
           >
-            StadiumGPT powers 16 World Cup venues with 8 AI agents, real-time computer vision,
-            and intelligent crowd management — serving 100K+ fans per match.
+            StadiumGPT orchestrates stadium infrastructure, IoT sensor arrays, and crowd intelligence across 16 tournament venues. Built for volunteers, emergency responders, and stadium staff.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTAs */}
           <motion.div
             variants={staggerItem}
-            className="flex flex-wrap items-center justify-center gap-4 mb-16"
+            className="flex flex-wrap items-center justify-center gap-4"
           >
-            <GradientButton size="lg" href="/dashboard">
-              Try Live Demo
+            <GradientButton size="lg" href="/dashboard" className="shadow-lg shadow-blue-500/10">
+              Access Operations Console
               <ArrowRight className="w-4 h-4" />
             </GradientButton>
             <GradientButton variant="secondary" size="lg" href="#dashboard">
-              <Play className="w-4 h-4" />
-              Watch Demo
-            </GradientButton>
-            <GradientButton variant="outline" size="lg" href="#architecture">
-              <Layers className="w-4 h-4" />
-              View Architecture
+              <Play className="w-4 h-4 text-slate-400" />
+              Watch Technical Overview
             </GradientButton>
           </motion.div>
 
-          {/* Dashboard Preview */}
+          {/* Live Telemetry Grid */}
+          <motion.div
+            variants={staggerItem}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-4"
+          >
+            {[
+              { icon: ShieldCheck, title: 'Compliance', value: 'WCAG 2.2 AA' },
+              { icon: Cpu, title: 'AI Orchestrator', value: '8 LLM Agents' },
+              { icon: Activity, title: 'CV Latency', value: '< 100ms' },
+              { icon: Globe, title: 'Scale', value: '16 Stadiums' },
+            ].map((stat, i) => (
+              <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:border-white/10 transition-colors text-left">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400">
+                  <stat.icon className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{stat.title}</p>
+                  <p className="text-sm font-bold text-slate-200 font-heading">{stat.value}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Animated Stadium/Dashboard Preview */}
           <motion.div
             variants={fadeInUp}
-            className="relative max-w-5xl mx-auto"
+            className="relative max-w-5xl mx-auto pt-8"
           >
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-3xl rounded-3xl" />
-            <div className="relative glass-strong rounded-2xl p-1.5 shadow-2xl shadow-black/50">
-              <div className="bg-surface rounded-xl overflow-hidden">
-                {/* Window Chrome */}
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5">
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 blur-3xl rounded-3xl opacity-60" />
+            <div className="relative border border-white/10 bg-slate-900/60 rounded-2xl p-1.5 shadow-2xl backdrop-blur-md">
+              <div className="bg-[#0b0f19] rounded-xl overflow-hidden border border-white/5">
+                {/* Browser Window Chrome */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-slate-950/80">
                   <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-slate-800" />
+                    <div className="w-3 h-3 rounded-full bg-slate-800" />
+                    <div className="w-3 h-3 rounded-full bg-slate-800" />
                   </div>
                   <div className="flex-1 flex justify-center">
-                    <div className="px-4 py-1 rounded-md bg-white/5 text-xs text-text-muted">
-                      stadiumgpt.ai/command-center
+                    <div className="px-4 py-0.5 rounded bg-white/5 text-[10px] text-slate-500 font-mono">
+                      stadiumgpt.fifa.org/live
                     </div>
                   </div>
-                </div>
-                {/* Dashboard Content */}
-                <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Active Fans', value: '94,218', change: '+12%', color: 'text-blue-400' },
-                    { label: 'AI Responses', value: '2.3M', change: '+34%', color: 'text-purple-400' },
-                    { label: 'Incidents Prevented', value: '47', change: '-23%', color: 'text-green-400' },
-                    { label: 'Avg Response', value: '0.3s', change: '-18%', color: 'text-cyan-400' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="glass rounded-xl p-4">
-                      <p className="text-xs text-text-muted mb-1">{stat.label}</p>
-                      <p className={`text-2xl font-bold font-heading ${stat.color}`}>{stat.value}</p>
-                      <p className="text-xs text-green-400 mt-1">{stat.change}</p>
-                    </div>
-                  ))}
-                </div>
-                {/* Mini Chart Area */}
-                <div className="px-6 pb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="md:col-span-2 glass rounded-xl p-4 h-40 relative overflow-hidden">
-                    <p className="text-xs text-text-muted mb-2">Crowd Density — Real-time</p>
-                    <div className="absolute bottom-0 left-0 right-0 h-24 flex items-end gap-1 px-4 pb-4">
-                      {Array.from({ length: 24 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 bg-gradient-to-t from-blue-500 to-purple-500 rounded-t opacity-60"
-                          style={{ height: `${20 + Math.sin(i * 0.5) * 30 + seededRandom(i) * 30}%` }}
-                        />
-                      ))}
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                    <span className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider">Operational</span>
                   </div>
-                  <div className="glass rounded-xl p-4 h-40">
-                    <p className="text-xs text-text-muted mb-2">AI Agents Active</p>
-                    <div className="flex flex-col gap-2 mt-3">
-                      {['Navigation', 'Safety', 'Medical', 'Volunteer'].map((agent) => (
-                        <div key={agent} className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                          <span className="text-xs text-text-secondary">{agent}</span>
-                          <span className="ml-auto text-xs text-green-400">Online</span>
+                </div>
+
+                {/* Dashboard Visualization */}
+                <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Central Digital Twin Stadium Vector */}
+                  <div className="md:col-span-2 relative aspect-[16/10] bg-slate-950/60 border border-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+                    <div className="absolute inset-0 dot-pattern opacity-10" />
+                    
+                    {/* Simulated SVG Stadium Pitch */}
+                    <div className="w-[80%] h-[70%] border border-slate-800 rounded-[50%] flex items-center justify-center relative bg-gradient-to-b from-blue-500/5 to-purple-500/5">
+                      <div className="w-[60%] h-[50%] border border-slate-800/80 rounded-[50%] flex items-center justify-center">
+                        <div className="w-[60%] h-[60%] border border-green-500/20 bg-green-500/5 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-slate-600 font-heading tracking-wider">FIELD</span>
                         </div>
-                      ))}
+                      </div>
+
+                      {/* Hotspots */}
+                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-3 h-3 bg-red-500/80 rounded-full animate-ping" />
+                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full" />
+                      
+                      <span className="absolute bottom-[20%] left-[25%] w-2 h-2 bg-yellow-500 rounded-full" />
+                      <span className="absolute top-[40%] right-[15%] w-2 h-2 bg-blue-500 rounded-full" />
+                    </div>
+
+                    <div className="absolute top-3 left-3 text-[10px] text-slate-500 font-mono">
+                      [V-01] METLIFE STADIUM / CV FEED
+                    </div>
+                  </div>
+
+                  {/* Side Agent Feed */}
+                  <div className="flex flex-col justify-between space-y-4 text-left">
+                    <div className="border border-white/5 bg-white/[0.02] p-4 rounded-xl space-y-3">
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Active Safety Agent</p>
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                        <span className="text-xs font-semibold text-slate-200">GPT-4o + YOLO v8</span>
+                      </div>
+                      <p className="text-xs text-slate-400 italic">"Crowd flow density near North Concourse has stabilized at 68%. Suggesting auxiliary gate opening."</p>
+                    </div>
+
+                    <div className="border border-white/5 bg-white/[0.02] p-4 rounded-xl space-y-3">
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">RAG Data Pipeline</p>
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                        <span className="text-xs font-semibold text-slate-200">Pinecone Database</span>
+                      </div>
+                      <p className="text-xs text-slate-400">12,840 operational guidelines and protocol documents indexed.</p>
                     </div>
                   </div>
                 </div>
@@ -139,28 +173,26 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Stats Bar */}
-          <motion.div
-            variants={staggerItem}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto"
-          >
-            {[
-              { value: '16', label: 'Stadiums' },
-              { value: '8', label: 'AI Agents' },
-              { value: '40+', label: 'Languages' },
-              { value: '<100ms', label: 'Latency' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold font-heading gradient-text">{stat.value}</p>
-                <p className="text-sm text-text-secondary mt-1">{stat.label}</p>
-              </div>
-            ))}
+          {/* Trusted By Partner Logos */}
+          <motion.div variants={staggerItem} className="pt-16 border-t border-white/5">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-6">
+              Integrated with Core FIFA Partnerships & Systems
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60">
+              {partners.map((partner) => (
+                <div key={partner.name} className="flex flex-col items-center">
+                  <span className="text-sm font-bold text-slate-300 tracking-tight font-heading">
+                    {partner.name}
+                  </span>
+                  <span className="text-[9px] text-slate-500 tracking-wider uppercase mt-0.5">
+                    {partner.type}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }

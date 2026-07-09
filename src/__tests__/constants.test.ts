@@ -149,7 +149,7 @@ describe('Constants Validation - StadiumGPT', () => {
 
   test('dashboardNavItems should point to valid relative paths', () => {
     expect(Array.isArray(dashboardNavItems)).toBe(true);
-    expect(dashboardNavItems.length).toBe(10);
+    expect(dashboardNavItems.length).toBe(14);
     dashboardNavItems.forEach((item) => {
       expect(item.label).toBeTruthy();
       expect(item.href.startsWith('/')).toBe(true);

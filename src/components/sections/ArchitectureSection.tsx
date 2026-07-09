@@ -4,60 +4,82 @@ import { motion } from 'framer-motion';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { architectureNodes } from '@/lib/constants';
 import { staggerContainer, staggerItem } from '@/lib/animations';
+import { ArrowRight } from 'lucide-react';
 
 export default function ArchitectureSection() {
-  return (
-    <section id="architecture" className="py-24 sm:py-32 relative">
-      {/* Background accent */}
-      <div className="absolute inset-0 dot-pattern opacity-30" />
+  // Let's divide the nodes into layers to represent a logical data flow
+  // 1. Edge Layer (Users, Mobile App, IoT Sensors, Computer Vision)
+  // 2. Routing & Processing Layer (API Gateway, AI Agents)
+  // 3. Cognitive & LLM Layer (LLM Layer, RAG Pipeline)
+  // 4. Data & Analytics Layer (Vector Database, Analytics Dashboard)
+  const edgeLayer = architectureNodes.filter(n => ['users', 'mobile', 'iot', 'vision'].includes(n.id));
+  const routingLayer = architectureNodes.filter(n => ['gateway', 'agents'].includes(n.id));
+  const cognitiveLayer = architectureNodes.filter(n => ['llm', 'rag'].includes(n.id));
+  const dataLayer = architectureNodes.filter(n => ['vector', 'analytics'].includes(n.id));
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+  const layers = [
+    { name: '1. Ingestion & Edge', nodes: edgeLayer },
+    { name: '2. Gateway & Orchestration', nodes: routingLayer },
+    { name: '3. LLM & Context Retrieval', nodes: cognitiveLayer },
+    { name: '4. Storage & Dashboard Output', nodes: dataLayer },
+  ];
+
+  return (
+    <section id="architecture" className="py-24 sm:py-32 relative bg-[#030712]">
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 grid-pattern opacity-25 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="System Design"
-          title="AI Architecture"
-          subtitle="A multi-layered intelligent system processing millions of data points in real-time across all venue operations."
+          badge="System Topology"
+          title="Multi-Layered AI Infrastructure"
+          subtitle="How StadiumGPT processes high-throughput IoT telemetries, computer vision feeds, and natural language requests in real-time."
         />
 
         <motion.div
-          className="relative flex flex-col items-center gap-3"
+          className="grid grid-cols-1 lg:grid-cols-4 gap-8"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true, margin: '-100px' }}
         >
-          {architectureNodes.map((node, index) => (
-            <motion.div key={node.id} variants={staggerItem} className="w-full max-w-md">
-              {/* Connector line */}
-              {index > 0 && (
-                <div className="flex justify-center mb-3">
-                  <div className="w-px h-8 bg-gradient-to-b from-blue-500/50 to-purple-500/50 relative">
-                    <motion.div
-                      className="absolute top-0 left-0 w-full bg-gradient-to-b from-blue-400 to-purple-400"
-                      initial={{ height: 0 }}
-                      whileInView={{ height: '100%' }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    />
+          {layers.map((layer, lIndex) => (
+            <motion.div
+              key={layer.name}
+              variants={staggerItem}
+              className="relative space-y-4"
+            >
+              {/* Layer Title */}
+              <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">{layer.name}</h4>
+                {lIndex < 3 && (
+                  <ArrowRight className="hidden lg:block w-4 h-4 text-slate-700 absolute -right-6 top-1/2 -translate-y-1/2 z-20" />
+                )}
+              </div>
+
+              {/* Node List */}
+              <div className="flex flex-col gap-4">
+                {layer.nodes.map((node) => (
+                  <div
+                    key={node.id}
+                    className="relative p-4 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 group"
+                  >
+                    {/* Hover subtle glow */}
+                    <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-blue-500/0 via-indigo-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:via-indigo-500/10 group-hover:to-purple-500/10 transition-all duration-500 pointer-events-none" />
+
+                    <div className="flex items-center gap-3.5 relative z-10">
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0">
+                        <node.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-200 font-heading">{node.label}</h4>
+                        <p className="text-xs text-slate-500 mt-0.5">{node.sublabel}</p>
+                      </div>
+                      {/* Active Status Dot */}
+                      <span className="ml-auto w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-500/50" />
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {/* Node Card */}
-              <div className="glass-strong rounded-xl p-4 flex items-center gap-4 card-hover relative group">
-                {/* Glow */}
-                <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/20 group-hover:to-purple-500/20 transition-all duration-500" />
-
-                <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <node.icon className="w-5 h-5 text-blue-400" />
-                </div>
-                <div className="relative">
-                  <h3 className="font-heading font-semibold text-sm text-text-primary">{node.label}</h3>
-                  <p className="text-xs text-text-secondary">{node.sublabel}</p>
-                </div>
-                {/* Pulse indicator */}
-                <div className="relative ml-auto flex-shrink-0">
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
-                </div>
+                ))}
               </div>
             </motion.div>
           ))}

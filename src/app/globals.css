@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
-/* ===== DESIGN SYSTEM ===== */
+/* ===== STADIUM DESIGN SYSTEM (CHARCOAL, EMERALD, AMBER) ===== */
 @theme inline {
   /* Colors */
-  --color-background: #030712;
-  --color-surface: #111827;
-  --color-surface-light: #1f2937;
+  --color-background: #0B1120;
+  --color-surface: #151e30;
+  --color-surface-light: #1e293b;
   --color-border: rgba(255, 255, 255, 0.08);
   --color-border-light: rgba(255, 255, 255, 0.15);
 
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-secondary: #8b5cf6;
-  --color-accent: #06b6d4;
-  --color-neon-green: #22c55e;
-  --color-neon-pink: #ec4899;
-  --color-neon-orange: #f97316;
+  --color-primary: #10B981;
+  --color-primary-light: #34d399;
+  --color-secondary: #F59E0B;
+  --color-accent: #10B981;
+  --color-neon-green: #10b981;
+  --color-neon-pink: #f59e0b;
+  --color-neon-orange: #f59e0b;
 
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #9ca3af;
-  --color-text-muted: #6b7280;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
 
-  /* Fonts */
-  --font-heading: "Space Grotesk", sans-serif;
+  /* Fonts (Cohesive Inter font stack) */
+  --font-heading: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
 
   /* Animations */
@@ -52,8 +52,8 @@
 }
 
 @keyframes glow {
-  from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-  to { box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
+  from { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+  to { box-shadow: 0 0 40px rgba(245, 158, 11, 0.3); }
 }
 
 @keyframes slide-up {
@@ -69,11 +69,6 @@
 @keyframes scan-line {
   0% { top: -10%; }
   100% { top: 110%; }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
 }
 
 /* ===== BASE STYLES ===== */
@@ -107,25 +102,25 @@ body {
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.4);
+  background: rgba(16, 185, 129, 0.4);
   color: #fff;
 }
 
 /* ===== UTILITY CLASSES ===== */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-strong {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+  background: linear-gradient(135deg, #10B981, #059669);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -141,7 +136,7 @@ body {
   inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(139, 92, 246, 0.5));
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(5, 150, 105, 0.4));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -150,28 +145,28 @@ body {
 }
 
 .gradient-bg {
-  background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #06b6d4, #3b82f6);
+  background: linear-gradient(-45deg, #10B981, #0B1120, #059669, #10B981);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
 }
 
 .glow-blue {
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3), 0 0 60px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.15), 0 0 60px rgba(16, 185, 129, 0.05);
 }
 
 .glow-purple {
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.15), 0 0 60px rgba(245, 158, 11, 0.05);
 }
 
 .dot-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .grid-pattern {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -181,7 +176,7 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.4), transparent);
   animation: scan-line 3s linear infinite;
 }
 
@@ -196,9 +191,9 @@ section {
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(16, 185, 129, 0.05);
 }
 
 /* Hide scrollbar for carousels */

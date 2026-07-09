@@ -43,6 +43,21 @@ StadiumGPT solves these problems by consolidating stadium management under a mul
 
 ---
 
+## 📋 FIFA World Cup 2026 Required Areas Mapping
+
+| Required Area | Implemented Feature | Corresponding File(s) / Path | AI Power Source / Telemetry |
+| :--- | :--- | :--- | :--- |
+| **1. Navigation** | Live Stadium Seating Map & Seat Pathfinder | [stadium-map](file:///d:/fifa/src/app/dashboard/stadium-map/page.tsx) | SVG seating outline & POI routing nodes |
+| **2. Crowd Management** | Crowd Density Heatmap, Flow Analytics & AI Predictive Forecasts | [crowd-analytics](file:///d:/fifa/src/app/dashboard/crowd-analytics/page.tsx), [predict API](file:///d:/fifa/src/app/api/predict/route.ts) | Gemini 2.5 Flash / local heuristic predictive analytics |
+| **3. Accessibility** | Screen Reader Support, High Contrast & Audio Nav | [accessibility](file:///d:/fifa/src/app/dashboard/accessibility/page.tsx) | WCAG 2.2 AA compliant UI & Voice simulation |
+| **4. Transportation** | Parking Slot Allocation & Transit Gate ETAs | [transportation](file:///d:/fifa/src/app/dashboard/transportation/page.tsx) | Recharts traffic forecast & shuttle logs |
+| **5. Sustainability** | Carbon Offset, Energy & Water Saved telemetry | [sustainability](file:///d:/fifa/src/app/dashboard/sustainability/page.tsx) | Seeded resource optimization sensors |
+| **6. Multilingual Assistance** | Gemini API-powered Conversational Bot | [ai-chat](file:///d:/fifa/src/app/dashboard/ai-chat/page.tsx) | Live Gemini 2.5 Flash API with RAG context |
+| **7. Operational Intelligence** | Digital Twin, Physical Status & Asset Roster | [operations](file:///d:/fifa/src/app/dashboard/operations/page.tsx) | Telemetry control panel & maintenance lists |
+| **8. Real-Time Decision Support** | Active alerts, confidence indicators & workload charts | [dashboard](file:///d:/fifa/src/app/dashboard/page.tsx) | Command Center console with live Recharts |
+
+---
+
 ## 🗺️ System Architecture Flowchart
 The flowchart below illustrates how edge telemetry, user interfaces, and multi-agent AI systems coordinate to deliver sub-100ms response cycles.
 

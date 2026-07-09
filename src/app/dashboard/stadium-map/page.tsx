@@ -19,24 +19,34 @@ const pois = [
   { icon: Car, label: 'Parking B', x: '90%', y: '15%' },
 ];
 
+/**
+ * Stadium Seating Map Overlay View.
+ * Addresses [Required Area: Navigation].
+ */
 export default function StadiumMap() {
   return (
     <div className="space-y-6">
+      {/* Header with Mapping Badge */}
       <div>
-        <h1 className="text-2xl font-bold font-heading">Live Stadium Map</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold font-heading text-slate-100">Live Stadium Map</h1>
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+            [Required Area: Navigation]
+          </span>
+        </div>
         <p className="text-sm text-text-secondary mt-1">Interactive venue layout with real-time data overlay</p>
       </div>
 
       {/* Map Container */}
-      <div className="glass rounded-xl p-5">
-        <div className="relative aspect-[16/9] bg-surface rounded-xl overflow-hidden border border-white/5">
+      <div className="border border-white/10 bg-slate-950/40 backdrop-blur-md rounded-xl p-5">
+        <div className="relative aspect-[16/9] bg-slate-950/80 rounded-xl overflow-hidden border border-white/5">
           {/* Grid overlay */}
           <div className="absolute inset-0 grid-pattern opacity-30" />
 
           {/* Stadium outline */}
           <div className="absolute inset-[10%] border-2 border-white/10 rounded-[40%] flex items-center justify-center">
-            <div className="w-[60%] h-[40%] border border-green-500/30 rounded-lg bg-green-500/5 flex items-center justify-center">
-              <span className="text-xs text-green-400/50 font-heading">PITCH</span>
+            <div className="w-[60%] h-[40%] border border-emerald-500/30 rounded-lg bg-emerald-500/5 flex items-center justify-center">
+              <span className="text-xs text-emerald-400/50 font-heading tracking-widest">PITCH</span>
             </div>
           </div>
 
@@ -48,13 +58,13 @@ export default function StadiumMap() {
               style={{ left: zone.x, top: zone.y }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.2 }}
             >
               <div className={`w-16 h-16 rounded-full flex items-center justify-center text-xs font-bold transition-all group-hover:scale-110 ${
-                zone.status === 'critical' ? 'bg-red-500/20 text-red-400 animate-pulse' :
-                zone.status === 'high' ? 'bg-amber-500/20 text-amber-400' :
-                zone.status === 'moderate' ? 'bg-blue-500/20 text-blue-400' :
-                'bg-green-500/20 text-green-400'
+                zone.status === 'critical' ? 'bg-red-500/20 text-red-400 animate-pulse border border-red-500/30' :
+                zone.status === 'high' ? 'bg-secondary/20 text-secondary border border-secondary/30' :
+                zone.status === 'moderate' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                'bg-emerald-500/10 text-slate-300 border border-emerald-500/20'
               }`}>
                 {zone.density}%
               </div>
@@ -72,7 +82,7 @@ export default function StadiumMap() {
               style={{ left: poi.x, top: poi.y }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 + i * 0.1 }}
+              transition={{ delay: 0.5 + i * 0.1 }}
             >
               <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
                 <poi.icon className="w-3.5 h-3.5 text-text-secondary" />
@@ -87,10 +97,10 @@ export default function StadiumMap() {
         {/* Legend */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
           {[
-            { label: 'Low', color: 'bg-green-500/20' },
-            { label: 'Moderate', color: 'bg-blue-500/20' },
-            { label: 'High', color: 'bg-amber-500/20' },
-            { label: 'Critical', color: 'bg-red-500/20' },
+            { label: 'Low', color: 'bg-emerald-500/10 border border-emerald-500/20' },
+            { label: 'Moderate', color: 'bg-emerald-500/20 border border-emerald-500/30' },
+            { label: 'High', color: 'bg-secondary/20 border border-secondary/30' },
+            { label: 'Critical', color: 'bg-red-500/20 border border-red-500/30' },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-1.5 text-xs text-text-muted">
               <div className={`w-3 h-3 rounded-full ${item.color}`} />
@@ -98,7 +108,7 @@ export default function StadiumMap() {
             </div>
           ))}
           <div className="flex items-center gap-1.5 text-xs text-text-muted">
-            <MapPin className="w-3 h-3" /> POI
+            <MapPin className="w-3 h-3 text-emerald-400" /> POI
           </div>
         </div>
       </div>

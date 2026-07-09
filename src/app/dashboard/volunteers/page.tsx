@@ -20,11 +20,21 @@ const pendingTasks = [
   { task: 'Guide lost family to Info Desk', priority: 'high', zone: 'Section 300', eta: '3 min' },
 ];
 
+/**
+ * Volunteer Dashboard Page Component.
+ * Addresses [Required Area: Multilingual Assistance / Operational Intelligence].
+ */
 export default function VolunteerDashboard() {
   return (
     <div className="space-y-6">
+      {/* Header with Mapping Badge */}
       <div>
-        <h1 className="text-2xl font-bold font-heading">Volunteer Dashboard</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold font-heading text-slate-100">Volunteer Dashboard</h1>
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+            [Required Area: Multilingual Assistance / Operational Intelligence]
+          </span>
+        </div>
         <p className="text-sm text-text-secondary mt-1">AI-powered volunteer coordination and task management</p>
       </div>
 
@@ -36,16 +46,16 @@ export default function VolunteerDashboard() {
         animate="visible"
       >
         {[
-          { label: 'Active Volunteers', value: '18,234', icon: Users, color: '#3b82f6' },
-          { label: 'Tasks Completed', value: '4,521', icon: CheckCircle, color: '#22c55e' },
-          { label: 'Pending Tasks', value: '127', icon: Clock, color: '#f59e0b' },
-          { label: 'Zones Covered', value: '48/48', icon: MapPin, color: '#8b5cf6' },
+          { label: 'Active Volunteers', value: '18,234', icon: Users, color: '#10B981' },
+          { label: 'Tasks Completed', value: '4,521', icon: CheckCircle, color: '#10B981' },
+          { label: 'Pending Tasks', value: '127', icon: Clock, color: '#F59E0B' },
+          { label: 'Zones Covered', value: '48/48', icon: MapPin, color: '#10B981' },
         ].map((stat) => (
-          <motion.div key={stat.label} variants={staggerItem} className="glass rounded-xl p-4">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2" style={{ background: `${stat.color}15` }}>
+          <motion.div key={stat.label} variants={staggerItem} className="border border-white/10 bg-slate-950/40 backdrop-blur-md rounded-xl p-4">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2 bg-white/5">
               <stat.icon className="w-4 h-4" style={{ color: stat.color }} />
             </div>
-            <p className="text-2xl font-bold font-heading">{stat.value}</p>
+            <p className="text-2xl font-bold font-heading text-slate-100">{stat.value}</p>
             <p className="text-xs text-text-muted mt-0.5">{stat.label}</p>
           </motion.div>
         ))}
@@ -53,19 +63,19 @@ export default function VolunteerDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Volunteers */}
-        <div className="glass rounded-xl p-5">
-          <h3 className="font-heading font-semibold text-sm mb-4">Active Volunteers</h3>
+        <div className="border border-white/10 bg-slate-950/40 backdrop-blur-md rounded-xl p-5">
+          <h3 className="font-heading font-semibold text-sm mb-4 text-slate-200">Active Volunteers</h3>
           <div className="space-y-3">
             {volunteers.map((vol) => (
-              <div key={vol.name} className="flex items-center gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/5">
+              <div key={vol.name} className="flex items-center gap-3 p-3 rounded-lg bg-white/[0.01] border border-white/5">
                 <span className="text-xl">{vol.avatar}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{vol.name}</p>
+                  <p className="text-sm font-medium truncate text-slate-200">{vol.name}</p>
                   <p className="text-xs text-text-muted">{vol.role} · {vol.zone}</p>
                 </div>
                 <div className="text-right">
                   <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    vol.status === 'active' ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400'
+                    vol.status === 'active' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-secondary/10 text-secondary'
                   }`}>
                     {vol.status}
                   </span>
@@ -77,17 +87,17 @@ export default function VolunteerDashboard() {
         </div>
 
         {/* Pending Tasks */}
-        <div className="glass rounded-xl p-5">
-          <h3 className="font-heading font-semibold text-sm mb-4">Pending Tasks</h3>
+        <div className="border border-white/10 bg-slate-950/40 backdrop-blur-md rounded-xl p-5">
+          <h3 className="font-heading font-semibold text-sm mb-4 text-slate-200">Pending Tasks</h3>
           <div className="space-y-3">
             {pendingTasks.map((task, i) => (
-              <div key={i} className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+              <div key={i} className="p-3 rounded-lg bg-white/[0.01] border border-white/5">
                 <div className="flex items-start justify-between mb-2">
-                  <p className="text-sm text-text-primary">{task.task}</p>
+                  <p className="text-sm text-slate-200">{task.task}</p>
                   <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ml-2 ${
                     task.priority === 'high' ? 'bg-red-500/10 text-red-400' :
-                    task.priority === 'medium' ? 'bg-amber-500/10 text-amber-400' :
-                    'bg-blue-500/10 text-blue-400'
+                    task.priority === 'medium' ? 'bg-secondary/10 text-secondary' :
+                    'bg-emerald-500/10 text-emerald-400'
                   }`}>
                     {task.priority}
                   </span>

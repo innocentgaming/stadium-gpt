@@ -115,11 +115,11 @@ export const architectureNodes = [
 
 // ===== COMPUTER VISION DETECTIONS =====
 export const cvDetections = [
-  { title: 'Crowd Detection', confidence: 97.8, count: 2847, color: '#3b82f6', description: 'Real-time crowd density analysis' },
-  { title: 'Fire Detection', confidence: 99.2, count: 0, color: '#ef4444', description: 'Thermal + visual fire detection' },
-  { title: 'Queue Detection', confidence: 94.5, count: 12, color: '#f59e0b', description: 'Queue length and wait time estimation' },
-  { title: 'Suspicious Package', confidence: 89.3, count: 1, color: '#8b5cf6', description: 'Unattended object detection' },
-  { title: 'Fall Detection', confidence: 96.1, count: 3, color: '#ec4899', description: 'Automated fall incident detection' },
+  { title: 'Crowd Detection', confidence: 97.8, count: 2847, color: '#10B981', description: 'Real-time crowd density analysis' },
+  { title: 'Fire Detection', confidence: 99.2, count: 0, color: '#F59E0B', description: 'Thermal + visual fire detection' },
+  { title: 'Queue Detection', confidence: 94.5, count: 12, color: '#10B981', description: 'Queue length and wait time estimation' },
+  { title: 'Suspicious Package', confidence: 89.3, count: 1, color: '#F59E0B', description: 'Unattended object detection' },
+  { title: 'Fall Detection', confidence: 96.1, count: 3, color: '#F59E0B', description: 'Automated fall incident detection' },
 ];
 
 // ===== ACCESSIBILITY FEATURES =====
@@ -135,11 +135,11 @@ export const accessibilityFeatures = [
 
 // ===== SUSTAINABILITY STATS =====
 export const sustainabilityStats = [
-  { label: 'Carbon Saved', value: 45200, unit: 'tons CO₂', icon: Cloud, color: '#22c55e' },
-  { label: 'Water Saved', value: 12800000, unit: 'liters', icon: Droplets, color: '#06b6d4' },
-  { label: 'Energy Saved', value: 8900, unit: 'MWh', icon: Zap, color: '#f59e0b' },
-  { label: 'Food Waste Reduced', value: 67, unit: '%', icon: Recycle, color: '#8b5cf6' },
-  { label: 'Plastic Eliminated', value: 2300, unit: 'tons', icon: Leaf, color: '#10b981' },
+  { label: 'Carbon Saved', value: 45200, unit: 'tons CO₂', icon: Cloud, color: '#10B981' },
+  { label: 'Water Saved', value: 12800000, unit: 'liters', icon: Droplets, color: '#10B981' },
+  { label: 'Energy Saved', value: 8900, unit: 'MWh', icon: Zap, color: '#10B981' },
+  { label: 'Food Waste Reduced', value: 67, unit: '%', icon: Recycle, color: '#10B981' },
+  { label: 'Plastic Eliminated', value: 2300, unit: 'tons', icon: Leaf, color: '#10B981' },
 ];
 
 // ===== TECH STACK =====
@@ -297,9 +297,13 @@ export const dashboardNavItems = [
   { icon: BarChart3, label: 'Command Center', href: '/dashboard' },
   { icon: Flame, label: 'Crowd Analytics', href: '/dashboard/crowd-analytics' },
   { icon: AlertTriangle, label: 'Emergency', href: '/dashboard/emergency' },
-  { icon: Users, label: 'Volunteers', href: '/dashboard/volunteers' },
-  { icon: Leaf, label: 'Sustainability', href: '/dashboard/sustainability' },
   { icon: Lock, label: 'Incidents', href: '/dashboard/incidents' },
+  { icon: Users, label: 'Volunteers', href: '/dashboard/volunteers' },
+  { icon: Heart, label: 'Fan Experience', href: '/dashboard/fan-experience' },
+  { icon: Accessibility, label: 'Accessibility', href: '/dashboard/accessibility' },
+  { icon: Leaf, label: 'Sustainability', href: '/dashboard/sustainability' },
+  { icon: Bus, label: 'Transportation', href: '/dashboard/transportation' },
+  { icon: Settings, label: 'Operations', href: '/dashboard/operations' },
   { icon: MapPin, label: 'Stadium Map', href: '/dashboard/stadium-map' },
   { icon: MessageSquare, label: 'AI Chat', href: '/dashboard/ai-chat' },
   { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
