@@ -43,10 +43,26 @@ Sustainability Metrics:
 - Field Temperature: 21.5°C.
 `;
 
+// Local RAG database of rules and operational guidelines
+const RULES_DATABASE = [
+  { keywords: ['wheelchair', 'accessible', 'elevator', 'mobility', 'ramp'], text: 'ACCESSIBILITY PATHS: Designation Gate C is the primary barrier-free route. Wheelchair elevators are at Elevator Cluster C, which connects directly to concourse Level 2 seating.' },
+  { keywords: ['sensory', 'noise', 'quiet', 'autism', 'calm'], text: 'SENSORY ROOMS: Sensory Room A is situated at Concourse Level 1. It is sound-muffled, features sensory toys, and is managed by trained volunteers. Occupancy is monitored in real-time.' },
+  { keywords: ['restroom', 'bathroom', 'toilet', 'accessible toilet'], text: 'ACCESSIBLE RESTROOMS: Designated wheelchair-accessible restrooms are located near Sections 104, 118, 224, and adjacent to Concourse A. Waiting times are tracked via IoT beacons.' },
+  { keywords: ['food', 'concessions', 'wait', 'eat', 'burger', 'pizza', 'queue'], text: 'CONCESSIONS FEED: Concessions queue statuses are tracked via BLE turnstiles. MetLife Burger Co. (Section 104) has low queues. Corner Kick Pizza is medium wait (~9m). Halal Pitch Eats (Section 224) is high wait (~18m).' },
+  { keywords: ['metro', 'train', 'transit', 'bus', 'shuttle', 'transport'], text: 'PUBLIC TRANSPORT: Metro Lines A and B run every 3-5 minutes from the central stadium platform. Shuttle Bus 7 is currently delayed by 12 minutes due to external congestion on Route 3.' },
+  { keywords: ['parking', 'ev', 'charging', 'handicapped parking'], text: 'PARKING RULES: EV charging slots are located in Lot B (South) and Lot C (Reserved). Accessible parking is prioritized in Lot A and B with direct step-free walk paths to Gate C.' },
+  { keywords: ['match', 'score', 'brazil', 'germany', 'possession', 'goals'], text: 'MATCH INSIGHTS: Brazil is playing Germany. Current score is 2-1 (72nd min). Possession is Brazil 58% - 42% Germany. Stadium crowd density is peaking; fans are advised to stay seated.' },
+  { keywords: ['incident', 'injury', 'medical', 'fall', 'emergency'], text: 'EMERGENCY INCIDENT: Active incidents are dispatched to First Aid Unit M-7 at Section 205. Responders arrive within 2.1 minutes on average.' },
+  { keywords: ['sustainability', 'recycle', 'carbon', 'eco', 'green', 'waste'], text: 'ENVIRONMENTAL METRICS: MetLife Stadium tracks recycling targets (current: 78%). Plastic is eliminated in F&B concourses. Energy savings are monitored dynamically.' },
+  { keywords: ['roof', 'weather', 'temp', 'temperature', 'hvac'], text: 'STRUCTURAL TELEMETRY: Retractable roof status is tracked in real-time. HVAC systems maintain a constant field temperature of 21.5°C when closed.' },
+  { keywords: ['volunteer', 'assistance', 'help', 'lost', 'found'], text: 'VOLUNTEER COMMAND: 18,234 volunteers are deployed across all gates. Translators are situated near Info Desks to provide multilingual translation assistance.' }
+];
+
 /**
  * POST handler for /api/chat.
  * Integrates directly with the Gemini API for natural language assistance.
- * Includes local pattern matching as a robust fallback.
+ * Features a local keyword-search retrieval index (Local RAG search) to query rules database.
+ * Includes local pattern-matching fallback as a robust safety bounds wrapper.
  *
  * @param request - Inbound Next.js Request object
  * @returns JSON Response containing the chatbot reply
@@ -71,12 +87,36 @@ export async function POST(request: Request): Promise<NextResponse<ChatResponse>
       );
     }
 
+    const queryLower = sanitizedMessage.toLowerCase();
+
+    // Local semantic keyword RAG lookup pipeline
+    const keywords = queryLower.split(/\s+/).map(w => w.replace(/[^a-zA-Z]/g, '')).filter(w => w.length > 2);
+    const scoredRules = RULES_DATABASE.map(rule => {
+      let score = 0;
+      for (const keyword of keywords) {
+        if (rule.keywords.some(k => k.includes(keyword) || keyword.includes(k))) {
+          score += 1;
+        }
+      }
+      return { ...rule, score };
+    });
+
+    // Sort matching guidelines by score descending
+    const topMatches = scoredRules
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    const retrievedContext = topMatches.length > 0
+      ? topMatches.map(m => m.text).join('\n')
+      : 'GENERAL RULE: Check concourse signage or query closest info desk coordinator.';
+
     const geminiKey = process.env.GEMINI_API_KEY;
 
     if (geminiKey) {
       // Direct call to Gemini REST API to ensure no heavy packages are required
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
-      const systemInstruction = `You are StadiumGPT, the AI Operating System for MetLife Stadium at FIFA World Cup 2026. Use the following context to answer the user's question concisely. Be professional, direct, and helpful. Translate automatically if the user queries in another language.\n\nContext:\n${STADIUM_KNOWLEDGE}`;
+      const systemInstruction = `You are StadiumGPT, the AI Operating System for MetLife Stadium at FIFA World Cup 2026. Use the retrieved context and static knowledge to answer the user's question concisely. Be professional, direct, and helpful. Translate automatically if the user queries in another language.\n\nRetrieved Context:\n${retrievedContext}\n\nStatic Knowledge:\n${STADIUM_KNOWLEDGE}`;
 
       const res = await fetch(geminiUrl, {
         method: 'POST',
@@ -111,7 +151,6 @@ export async function POST(request: Request): Promise<NextResponse<ChatResponse>
 
     // Local pattern-matching fallback with detailed answers when API key is absent
     let reply = 'I am looking into that for you. Let me check with the venue coordinator.';
-    const queryLower = sanitizedMessage.toLowerCase();
 
     if (queryLower.includes('restroom') || queryLower.includes('bathroom') || queryLower.includes('toilet')) {
       reply = 'The nearest accessible restroom is located 45 meters behind you, next to Elevator A. Wait time: 0 minutes. Standard restrooms are near Section 104 with a 2-minute wait.';

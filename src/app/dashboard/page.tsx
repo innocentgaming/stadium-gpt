@@ -90,6 +90,59 @@ export default function CommandCenter() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Load initial values from localStorage
+    const savedRoof = window.localStorage.getItem('roofState');
+    if (savedRoof === 'OPEN') {
+      setLiveStats((prev) =>
+        prev.map((stat) => (stat.label === 'Safety Score' ? { ...stat, value: '97.2%' } : stat))
+      );
+    }
+
+    const savedTemp = window.localStorage.getItem('fieldTemp');
+    if (savedTemp && Number(savedTemp) > 24) {
+      setLiveStats((prev) =>
+        prev.map((stat) => (stat.label === 'Avg Latency' ? { ...stat, value: '94ms' } : stat))
+      );
+    }
+
+    const handleRoofToggle = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      setLiveStats((prev) =>
+        prev.map((stat) => {
+          if (stat.label === 'Safety Score') {
+            const safetyVal = customEvent.detail === 'OPEN' ? '97.2%' : '98.7%';
+            return { ...stat, value: safetyVal };
+          }
+          return stat;
+        })
+      );
+    };
+
+    const handleTempChange = (e: Event) => {
+      const customEvent = e as CustomEvent<number>;
+      setLiveStats((prev) =>
+        prev.map((stat) => {
+          if (stat.label === 'Avg Latency') {
+            const tempVal = customEvent.detail;
+            const targetLat = tempVal > 24 ? '94ms' : '87ms';
+            return { ...stat, value: targetLat };
+          }
+          return stat;
+        })
+      );
+    };
+
+    window.addEventListener('roofToggle', handleRoofToggle);
+    window.addEventListener('tempChange', handleTempChange);
+    return () => {
+      window.removeEventListener('roofToggle', handleRoofToggle);
+      window.removeEventListener('tempChange', handleTempChange);
+    };
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Dashboard Header Bar */}

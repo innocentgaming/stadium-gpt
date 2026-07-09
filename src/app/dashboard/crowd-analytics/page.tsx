@@ -40,6 +40,7 @@ export default function CrowdAnalytics() {
   const [advice, setAdvice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [cooldown, setCooldown] = useState(0);
 
   /**
    * Fetches AI predictions from the server prediction endpoint.
@@ -76,6 +77,18 @@ export default function CrowdAnalytics() {
       setIsLoading(false);
     }
   };
+
+  const handleManualForecast = () => {
+    if (cooldown > 0) return;
+    fetchPrediction(zones);
+    setCooldown(3);
+  };
+
+  useEffect(() => {
+    if (cooldown === 0) return;
+    const t = setTimeout(() => setCooldown(cooldown - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
 
   useEffect(() => {
     // Initial fetch
@@ -134,12 +147,12 @@ export default function CrowdAnalytics() {
                 className="rounded-sm cursor-pointer hover:ring-1 hover:ring-white/30 transition-all"
                 style={{
                   background: intensity > 0.8
-                    ? 'rgba(239, 68, 68, 0.7)' // Critical
+                    ? 'rgba(245, 158, 11, 0.8)' // Gold (Critical/Warning)
                     : intensity > 0.6
-                    ? 'rgba(244, 163, 0, 0.6)' // Gold (High)
+                    ? 'rgba(245, 158, 11, 0.45)' // Gold (High)
                     : intensity > 0.3
-                    ? 'rgba(30, 138, 95, 0.5)' // Emerald (Moderate)
-                    : 'rgba(30, 138, 95, 0.15)', // Light Emerald
+                    ? 'rgba(16, 185, 129, 0.5)' // Emerald (Moderate)
+                    : 'rgba(16, 185, 129, 0.15)', // Light Emerald
                 }}
               />
             );
@@ -169,12 +182,12 @@ export default function CrowdAnalytics() {
             <h3 className="font-heading font-semibold text-sm text-slate-200">AI Crowd & Gate Flow Recommendations</h3>
           </div>
           <button
-            onClick={() => fetchPrediction(zones)}
-            disabled={isLoading}
+            onClick={handleManualForecast}
+            disabled={isLoading || cooldown > 0}
             className="flex items-center gap-1.5 px-3 py-1 rounded bg-white/5 border border-white/10 text-xs text-slate-300 hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-            Forecast
+            {cooldown > 0 ? `Wait ${cooldown}s` : 'Forecast'}
           </button>
         </div>
 

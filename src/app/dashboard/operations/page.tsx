@@ -28,7 +28,12 @@ export default function OperationsDashboardPage() {
 
   const toggleRoof = () => {
     try {
-      setRoofOpen(!roofOpen);
+      const nextState = !roofOpen;
+      setRoofOpen(nextState);
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('roofState', nextState ? 'OPEN' : 'CLOSED');
+        window.dispatchEvent(new CustomEvent('roofToggle', { detail: nextState ? 'OPEN' : 'CLOSED' }));
+      }
     } catch (err) {
       console.error('Error toggling retractable roof:', err);
     }
@@ -38,8 +43,12 @@ export default function OperationsDashboardPage() {
     try {
       setFieldTemp((prev) => {
         const newVal = Number((prev + delta).toFixed(1));
-        // Clamp field temperature between 15°C and 30°C
-        return Math.min(30, Math.max(15, newVal));
+        const clampedVal = Math.min(30, Math.max(15, newVal));
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('fieldTemp', clampedVal.toString());
+          window.dispatchEvent(new CustomEvent('tempChange', { detail: clampedVal }));
+        }
+        return clampedVal;
       });
     } catch (err) {
       console.error('Error adjusting field temperature:', err);
