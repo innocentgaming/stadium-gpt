@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Layers, ShieldCheck, Cpu, Activity, Globe } from 'lucide-react';
+import { Play, ArrowRight, ShieldCheck, Cpu, Activity, Globe, Eye } from 'lucide-react';
 import GradientButton from '@/components/ui/GradientButton';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
 
@@ -13,15 +13,19 @@ const partners = [
   { name: 'Qatar Airways', type: 'Travel Logistics' },
 ];
 
+/**
+ * Hero section of the landing page.
+ * Strictly adheres to the Charcoal background (#0B1120) and Emerald/Gold accent design system.
+ */
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 bg-[#030712]">
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 bg-[#0B1120]">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
 
-      {/* Subtle Premium Blur Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
+      {/* Subtle Premium Single-hue Blur Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-emerald-500/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-emerald-600/5 blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
@@ -33,7 +37,7 @@ export default function HeroSection() {
           {/* Badge */}
           <motion.div variants={staggerItem} className="flex justify-center">
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/5 text-slate-300 border border-white/10 shadow-sm backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               FIFA World Cup 2026 Operations
             </span>
           </motion.div>
@@ -44,7 +48,7 @@ export default function HeroSection() {
             className="text-4xl sm:text-6xl md:text-7xl font-extrabold font-heading tracking-tight max-w-5xl mx-auto leading-[1.05] text-slate-100"
           >
             AI Operating System for{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
               FIFA World Cup 2026
             </span>
           </motion.h1>
@@ -62,7 +66,7 @@ export default function HeroSection() {
             variants={staggerItem}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <GradientButton size="lg" href="/dashboard" className="shadow-lg shadow-blue-500/10">
+            <GradientButton size="lg" href="/dashboard" className="shadow-lg shadow-emerald-500/10">
               Access Operations Console
               <ArrowRight className="w-4 h-4" />
             </GradientButton>
@@ -84,7 +88,7 @@ export default function HeroSection() {
               { icon: Globe, title: 'Scale', value: '16 Stadiums' },
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:border-white/10 transition-colors text-left">
-                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400">
+                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
                   <stat.icon className="w-4.5 h-4.5" />
                 </div>
                 <div>
@@ -100,9 +104,9 @@ export default function HeroSection() {
             variants={fadeInUp}
             className="relative max-w-5xl mx-auto pt-8"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 blur-3xl rounded-3xl opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 to-emerald-600/5 blur-3xl rounded-3xl opacity-60" />
             <div className="relative border border-white/10 bg-slate-900/60 rounded-2xl p-1.5 shadow-2xl backdrop-blur-md">
-              <div className="bg-[#0b0f19] rounded-xl overflow-hidden border border-white/5">
+              <div className="bg-[#151e30] rounded-xl overflow-hidden border border-white/5">
                 {/* Browser Window Chrome */}
                 <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-slate-950/80">
                   <div className="flex gap-1.5">
@@ -116,8 +120,8 @@ export default function HeroSection() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                    <span className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider">Operational</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">Operational</span>
                   </div>
                 </div>
 
@@ -128,19 +132,19 @@ export default function HeroSection() {
                     <div className="absolute inset-0 dot-pattern opacity-10" />
                     
                     {/* Simulated SVG Stadium Pitch */}
-                    <div className="w-[80%] h-[70%] border border-slate-800 rounded-[50%] flex items-center justify-center relative bg-gradient-to-b from-blue-500/5 to-purple-500/5">
+                    <div className="w-[80%] h-[70%] border border-slate-800 rounded-[50%] flex items-center justify-center relative bg-emerald-500/5">
                       <div className="w-[60%] h-[50%] border border-slate-800/80 rounded-[50%] flex items-center justify-center">
-                        <div className="w-[60%] h-[60%] border border-green-500/20 bg-green-500/5 rounded flex items-center justify-center">
+                        <div className="w-[60%] h-[60%] border border-emerald-500/20 bg-emerald-500/5 rounded flex items-center justify-center">
                           <span className="text-[10px] text-slate-600 font-heading tracking-wider">FIELD</span>
                         </div>
                       </div>
 
                       {/* Hotspots */}
-                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-3 h-3 bg-red-500/80 rounded-full animate-ping" />
-                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-2 h-2 bg-red-500 rounded-full" />
+                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-3 h-3 bg-secondary/80 rounded-full animate-ping" />
+                      <span className="absolute top-[15%] left-[50%] -translate-x-1/2 w-2 h-2 bg-secondary rounded-full" />
                       
-                      <span className="absolute bottom-[20%] left-[25%] w-2 h-2 bg-yellow-500 rounded-full" />
-                      <span className="absolute top-[40%] right-[15%] w-2 h-2 bg-blue-500 rounded-full" />
+                      <span className="absolute bottom-[20%] left-[25%] w-2 h-2 bg-emerald-500 rounded-full" />
+                      <span className="absolute top-[40%] right-[15%] w-2 h-2 bg-emerald-500 rounded-full" />
                     </div>
 
                     <div className="absolute top-3 left-3 text-[10px] text-slate-500 font-mono">
@@ -153,7 +157,7 @@ export default function HeroSection() {
                     <div className="border border-white/5 bg-white/[0.02] p-4 rounded-xl space-y-3">
                       <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Active Safety Agent</p>
                       <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                         <span className="text-xs font-semibold text-slate-200">GPT-4o + YOLO v8</span>
                       </div>
                       <p className="text-xs text-slate-400 italic">"Crowd flow density near North Concourse has stabilized at 68%. Suggesting auxiliary gate opening."</p>
@@ -162,7 +166,7 @@ export default function HeroSection() {
                     <div className="border border-white/5 bg-white/[0.02] p-4 rounded-xl space-y-3">
                       <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">RAG Data Pipeline</p>
                       <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                         <span className="text-xs font-semibold text-slate-200">Pinecone Database</span>
                       </div>
                       <p className="text-xs text-slate-400">12,840 operational guidelines and protocol documents indexed.</p>

@@ -6,12 +6,12 @@ import { architectureNodes } from '@/lib/constants';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { ArrowRight } from 'lucide-react';
 
+/**
+ * System Architecture Section.
+ * Shows logical data flow from Edge telemetry to storage/dashboard interfaces.
+ * Adheres strictly to the Charcoal background (#0B1120) and Emerald/Gold color systems.
+ */
 export default function ArchitectureSection() {
-  // Let's divide the nodes into layers to represent a logical data flow
-  // 1. Edge Layer (Users, Mobile App, IoT Sensors, Computer Vision)
-  // 2. Routing & Processing Layer (API Gateway, AI Agents)
-  // 3. Cognitive & LLM Layer (LLM Layer, RAG Pipeline)
-  // 4. Data & Analytics Layer (Vector Database, Analytics Dashboard)
   const edgeLayer = architectureNodes.filter(n => ['users', 'mobile', 'iot', 'vision'].includes(n.id));
   const routingLayer = architectureNodes.filter(n => ['gateway', 'agents'].includes(n.id));
   const cognitiveLayer = architectureNodes.filter(n => ['llm', 'rag'].includes(n.id));
@@ -25,7 +25,7 @@ export default function ArchitectureSection() {
   ];
 
   return (
-    <section id="architecture" className="py-24 sm:py-32 relative bg-[#030712]">
+    <section id="architecture" className="py-24 sm:py-32 relative bg-[#0B1120]">
       {/* Grid Pattern */}
       <div className="absolute inset-0 grid-pattern opacity-25 pointer-events-none" />
 
@@ -64,11 +64,11 @@ export default function ArchitectureSection() {
                     key={node.id}
                     className="relative p-4 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 group"
                   >
-                    {/* Hover subtle glow */}
-                    <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-blue-500/0 via-indigo-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:via-indigo-500/10 group-hover:to-purple-500/10 transition-all duration-500 pointer-events-none" />
+                    {/* Hover subtle emerald single-tone gradient */}
+                    <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-emerald-500/0 to-emerald-600/0 group-hover:from-emerald-500/5 group-hover:to-emerald-600/5 transition-all duration-500 pointer-events-none" />
 
                     <div className="flex items-center gap-3.5 relative z-10">
-                      <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0">
+                       <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0">
                         <node.icon className="w-5 h-5" />
                       </div>
                       <div>
@@ -76,7 +76,7 @@ export default function ArchitectureSection() {
                         <p className="text-xs text-slate-500 mt-0.5">{node.sublabel}</p>
                       </div>
                       {/* Active Status Dot */}
-                      <span className="ml-auto w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-500/50" />
+                      <span className="ml-auto w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" />
                     </div>
                   </div>
                 ))}

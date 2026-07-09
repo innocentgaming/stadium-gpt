@@ -9,7 +9,7 @@ const widgets = [
   {
     title: 'Crowd Heatmap',
     icon: Users,
-    color: '#3b82f6',
+    color: '#10B981',
     content: (
       <div className="grid grid-cols-8 gap-1 mt-3">
         {Array.from({ length: 32 }).map((_, i) => (
@@ -17,7 +17,7 @@ const widgets = [
             key={i}
             className="aspect-square rounded-sm"
             style={{
-              background: `rgba(59, 130, 246, ${0.1 + Math.random() * 0.8})`,
+              background: `rgba(16, 185, 129, ${0.1 + Math.random() * 0.8})`,
             }}
           />
         ))}
@@ -27,7 +27,7 @@ const widgets = [
   {
     title: 'Parking Occupancy',
     icon: Car,
-    color: '#8b5cf6',
+    color: '#10B981',
     content: (
       <div className="mt-3">
         {['Zone A', 'Zone B', 'Zone C', 'Zone D'].map((zone, i) => (
@@ -38,7 +38,7 @@ const widgets = [
             </div>
             <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-purple-500 to-blue-500"
+                className="h-full rounded-full bg-emerald-500"
                 initial={{ width: 0 }}
                 whileInView={{ width: `${[87, 62, 94, 45][i]}%` }}
                 transition={{ duration: 1, delay: i * 0.1 }}
@@ -53,13 +53,13 @@ const widgets = [
   {
     title: 'Queue Prediction',
     icon: UtensilsCrossed,
-    color: '#f59e0b',
+    color: '#10B981',
     content: (
       <div className="flex items-end gap-1 mt-3 h-20">
         {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}
-            className="flex-1 rounded-t bg-gradient-to-t from-amber-500/60 to-amber-400/30"
+            className="flex-1 rounded-t bg-emerald-500/40"
             style={{ height: `${20 + Math.sin(i * 0.8) * 40 + Math.random() * 30}%` }}
           />
         ))}
@@ -69,7 +69,7 @@ const widgets = [
   {
     title: 'Live Alerts',
     icon: AlertTriangle,
-    color: '#ef4444',
+    color: '#F59E0B',
     content: (
       <div className="mt-3 space-y-2">
         {[
@@ -78,7 +78,7 @@ const widgets = [
           { text: 'Queue > 15min F&B 3', level: 'info', time: '8m ago' },
         ].map((alert, i) => (
           <div key={i} className="flex items-start gap-2 text-xs">
-            <div className={`w-1.5 h-1.5 rounded-full mt-1 flex-shrink-0 ${alert.level === 'critical' ? 'bg-red-400 animate-pulse' : alert.level === 'warning' ? 'bg-amber-400' : 'bg-blue-400'}`} />
+            <div className={`w-1.5 h-1.5 rounded-full mt-1 flex-shrink-0 ${alert.level === 'critical' ? 'bg-red-500 animate-pulse' : alert.level === 'warning' ? 'bg-amber-500' : 'bg-emerald-500'}`} />
             <span className="text-text-secondary flex-1">{alert.text}</span>
             <span className="text-text-muted">{alert.time}</span>
           </div>
@@ -89,10 +89,10 @@ const widgets = [
   {
     title: 'Medical Incidents',
     icon: Activity,
-    color: '#22c55e',
+    color: '#F59E0B',
     content: (
       <div className="mt-3 text-center">
-        <p className="text-3xl font-bold font-heading text-green-400">3</p>
+        <p className="text-3xl font-bold font-heading text-emerald-400">3</p>
         <p className="text-xs text-text-secondary mt-1">Active incidents</p>
         <div className="flex justify-center gap-3 mt-3">
           <div className="text-center">
@@ -110,7 +110,7 @@ const widgets = [
   {
     title: 'Transport Status',
     icon: Bus,
-    color: '#06b6d4',
+    color: '#10B981',
     content: (
       <div className="mt-3 space-y-2">
         {[
@@ -120,7 +120,7 @@ const widgets = [
         ].map((t, i) => (
           <div key={i} className="flex items-center justify-between text-xs">
             <span className="text-text-secondary">{t.route}</span>
-            <span className={t.ok ? 'text-green-400' : 'text-amber-400'}>{t.status}</span>
+            <span className={t.ok ? 'text-emerald-400' : 'text-secondary'}>{t.status}</span>
           </div>
         ))}
       </div>
@@ -129,7 +129,7 @@ const widgets = [
   {
     title: 'Sustainability',
     icon: Leaf,
-    color: '#10b981',
+    color: '#10B981',
     content: (
       <div className="mt-3 grid grid-cols-2 gap-3">
         {[
@@ -139,7 +139,7 @@ const widgets = [
           { label: 'Waste', value: '-42%' },
         ].map((s) => (
           <div key={s.label} className="text-center">
-            <p className="text-sm font-semibold text-green-400">{s.value}</p>
+            <p className="text-sm font-semibold text-emerald-400">{s.value}</p>
             <p className="text-xs text-text-muted">{s.label}</p>
           </div>
         ))}
@@ -148,6 +148,10 @@ const widgets = [
   },
 ];
 
+/**
+ * Dashboard Preview component on the home page.
+ * Uses strictly consolidated colors: Charcoal background, Emerald Green active markers, and Gold alerts.
+ */
 export default function DashboardPreview() {
   return (
     <section id="dashboard" className="py-24 sm:py-32 relative">
@@ -159,7 +163,7 @@ export default function DashboardPreview() {
         />
 
         <motion.div
-          className="glass-strong rounded-2xl p-1.5 shadow-2xl shadow-black/30"
+          className="glass-strong rounded-2xl p-1.5 shadow-2xl shadow-black/30 bg-[#151e30]/40"
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -168,9 +172,9 @@ export default function DashboardPreview() {
           {/* Window Chrome */}
           <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5">
             <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              <div className="w-3 h-3 rounded-full bg-slate-800" />
+              <div className="w-3 h-3 rounded-full bg-slate-800" />
+              <div className="w-3 h-3 rounded-full bg-slate-800" />
             </div>
             <div className="flex-1 flex justify-center">
               <div className="px-4 py-1 rounded-md bg-white/5 text-xs text-text-muted">
@@ -178,8 +182,8 @@ export default function DashboardPreview() {
               </div>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs text-green-400">Live</span>
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs text-emerald-400">Live</span>
             </div>
           </div>
 
