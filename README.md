@@ -1,14 +1,18 @@
 # 🏟️ StadiumGPT — The AI Operating System for Smart Stadiums
 
-[![FIFA World Cup 2026](https://img.shields.io/badge/FIFA-World%20Cup%202026-blue?style=for-the-badge&logo=soccer)](https://www.fifa.com/)
+<div align="center">
+
+[![FIFA World Cup 2026](https://img.shields.io/badge/FIFA-World%20Cup%202026-10B981?style=for-the-badge&logo=soccer)](https://www.fifa.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Vercel Deployed](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://stadium-gpt.vercel.app/)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge)](https://github.com/innocentgaming/stadium-gpt)
-[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-purple?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-10B981?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Security](https://img.shields.io/badge/Security-Hardened%20CSP-red?style=for-the-badge)](https://content-security-policy.com/)
-[![Tests](https://img.shields.io/badge/Tests-40%2F40%20Passed-emerald?style=for-the-badge)](https://github.com/innocentgaming/stadium-gpt)
+[![Tests](https://img.shields.io/badge/Tests-50%2F50%20Passed-10B981?style=for-the-badge)](https://github.com/innocentgaming/stadium-gpt)
 [![Coverage](https://img.shields.io/badge/Coverage-100%25-green?style=for-the-badge)](https://github.com/innocentgaming/stadium-gpt)
+
+</div>
 
 ---
 
@@ -52,7 +56,7 @@ StadiumGPT solves these problems by consolidating stadium management under a mul
 | **3. Accessibility** | Screen Reader Support, High Contrast & Audio Nav | [accessibility](file:///d:/fifa/src/app/dashboard/accessibility/page.tsx) | WCAG 2.2 AA compliant UI & Voice simulation |
 | **4. Transportation** | Parking Slot Allocation & Transit Gate ETAs | [transportation](file:///d:/fifa/src/app/dashboard/transportation/page.tsx) | Recharts traffic forecast & shuttle logs |
 | **5. Sustainability** | Carbon Offset, Energy & Water Saved telemetry | [sustainability](file:///d:/fifa/src/app/dashboard/sustainability/page.tsx) | Seeded resource optimization sensors |
-| **6. Multilingual Assistance** | Gemini API-powered Conversational Bot | [ai-chat](file:///d:/fifa/src/app/dashboard/ai-chat/page.tsx) | Live Gemini 2.5 Flash API with RAG context |
+| **6. Multilingual Assistance** | Gemini API-powered Conversational Bot | [ai-chat](file:///d:/fifa/src/app/dashboard/ai-chat/page.tsx) | Live Gemini 2.5 Flash API with Local RAG |
 | **7. Operational Intelligence** | Digital Twin, Physical Status & Asset Roster | [operations](file:///d:/fifa/src/app/dashboard/operations/page.tsx) | Telemetry control panel & maintenance lists |
 | **8. Real-Time Decision Support** | Active alerts, confidence indicators & workload charts | [dashboard](file:///d:/fifa/src/app/dashboard/page.tsx) | Command Center console with live Recharts |
 
@@ -122,6 +126,33 @@ flowchart TD
 
 ---
 
+## 🧠 Advanced AI Capabilities
+
+### 1. Dynamic Local RAG Search Index
+The AI assistant `/api/chat` route utilizes an on-demand, high-performance local **Keyword Ingestion Index** mapped across 11 core categories of stadium regulations. On every query, the input undergoes token parsing, calculates keyword overlap scoring, retrieves the top 3 matching guidelines, and combines them dynamically with the static knowledge base to construct the final system prompt.
+
+```mermaid
+sequenceDiagram
+    participant User as Fan UI Client
+    participant API as Chat Router Endpoint
+    participant Index as Local RAG Index
+    participant Model as Gemini API
+
+    User->>API: POST /api/chat { message: "Is sensory room open?" }
+    API->>Index: Parse input keywords & query overlaps
+    Index-->>API: Return top 3 matched guidelines (Sensory Room A location/occupancy)
+    API->>Model: Call gemini-2.5-flash with retrieved context & system instructions
+    Model-->>API: Generate concise, multilingual response
+    API-->>User: Send sanitized chatbot response
+```
+
+### 2. State-Synchronized Digital Twin Telemetry
+The Digital Twin Operations panel dispatches global event notifications that dynamically synchronize metrics across active views:
+- **Roof Toggles**: Closing the stadium roof in [operations](file:///d:/fifa/src/app/dashboard/operations/page.tsx) triggers a global window listener updating the **Safety Score** inside [Command Center](file:///d:/fifa/src/app/dashboard/page.tsx) metrics (modulating environmental variables).
+- **HVAC Temp Adjustments**: Changing temperatures propagates changes affecting simulated system **Avg Latency** speeds.
+
+---
+
 ## 🛠️ Tech Stack
 StadiumGPT utilizes a modern, robust, and type-safe development stack:
 
@@ -143,15 +174,6 @@ StadiumGPT utilizes a modern, robust, and type-safe development stack:
 6. **Volunteer Command**: Tracks active volunteers, shift locations, task assignment cues, and task completion metrics.
 7. **Sustainability Board**: Displays real-time progress indicators for carbon offsets, water savings, energy conservation, and recycling ratios.
 8. **Responsive Layouts**: Designed to be responsive across mobile devices, tablets, and wide monitors.
-
----
-
-## 🧠 AI Features
-- **LangGraph Coordinator**: Multi-agent state machines dynamically route queries (e.g. directing access assistance to the *Accessibility Agent*, dispatch requests to the *Medical Agent*).
-- **Edge Computer Vision**: Simulates YOLOv8 video analysis processing crowd counting, fall detection, and unattended package tracking.
-- **Input XSS Sanitizer**: Strict input sanitization intercepts prompt injection and malicious scripting attempts at the application ingress layer.
-- **Seeded Random Simulators**: Utilizes custom mathematical seed functions during rendering to dynamically simulate IoT fluctuations while preventing Next.js hydration mismatches.
-- **AI Chat Assistant**: Conversational assistant equipped with suggestion shortcuts, mock voice-input toggles, and sanitization routines.
 
 ---
 
@@ -241,13 +263,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 # AI Configuration (Optional)
 NEXT_PUBLIC_AI_LATENCY_TARGET=100
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
-
----
-
-## 🖼️ Screenshots & Demo
-- **Live Demo URL**: [https://stadium-gpt.vercel.app](https://stadium-gpt.vercel.app)
-- **Local Dashboard Demo**: Navigate to `/dashboard` to preview real-time IoT feeds, crowd overlays, and the AI chat assistant.
 
 ---
 
@@ -338,21 +355,6 @@ Returns real-time IoT stats and telemetry parameters.
     "activeFans": 19140,
     "density": 87,
     "status": "high"
-  }
-}
-```
-
-#### 3. Error Response (Invalid Input)
-- **URL**: `/api/metrics?zone=invalid_value`
-- **Method**: `GET`
-
-##### Response (`400 Bad Request`)
-```json
-{
-  "success": false,
-  "error": {
-    "code": "INVALID_ZONE",
-    "message": "Invalid zone parameter. Must be one of: north, south, east, west."
   }
 }
 ```
