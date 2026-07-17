@@ -1,6 +1,16 @@
 import { NextResponse } from 'next/server';
 import { sanitizeInput } from '@/lib/utils';
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { headers: CORS_HEADERS, status: 200 });
+}
+
 /**
  * GET Handler for /api/metrics
  * Returns real-time IoT metrics for MetLife Stadium.
@@ -28,7 +38,7 @@ export async function GET(request: Request) {
               message: 'Invalid zone parameter. Must be one of: north, south, east, west.',
             },
           },
-          { status: 400 }
+          { status: 400, headers: CORS_HEADERS }
         );
       }
 
@@ -43,7 +53,7 @@ export async function GET(request: Request) {
         success: true,
         timestamp: new Date().toISOString(),
         data: zoneMetrics[sanitizedZone],
-      });
+      }, { headers: CORS_HEADERS });
     }
 
     // Default global stadium metrics
@@ -57,7 +67,7 @@ export async function GET(request: Request) {
         activeIncidents: 3,
         cvFeedsActive: 847,
       },
-    });
+    }, { headers: CORS_HEADERS });
   } catch (error) {
     return NextResponse.json(
       {
@@ -67,7 +77,7 @@ export async function GET(request: Request) {
           message: error instanceof Error ? error.message : 'An unexpected error occurred.',
         },
       },
-      { status: 500 }
+      { status: 500, headers: CORS_HEADERS }
     );
   }
 }

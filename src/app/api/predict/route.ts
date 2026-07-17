@@ -1,134 +1,85 @@
 import { NextResponse } from 'next/server';
+import { GeminiAIService } from '@/lib/services/ai';
+import { predictRateLimiter } from '@/lib/rate-limiter';
 import { sanitizeInput } from '@/lib/utils';
 
-/**
- * Interface representing zone input telemetry.
- */
-interface ZoneState {
-  name: string;
-  density: number;
-  current: number;
-  capacity: number;
-}
+// Helper to determine allowed origin for CORS/CSRF validation
+const getAllowedOrigin = (): string => {
+  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+};
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
 
 /**
- * Interface representing predictions from the AI engine.
+ * Checks if origin header matches the allowed application domain.
+ * Prevents CSRF attacks from external websites.
  */
-interface PredictionItem {
-  zone: string;
-  predictedDensity: number;
-  risk: 'low' | 'moderate' | 'high' | 'critical';
-  recommendation: string;
+function isOriginAllowed(origin: string | null): boolean {
+  if (!origin) return true; // Direct same-origin browser POST requests might lack origin
+  const allowed = getAllowedOrigin();
+  if (origin === allowed) return true;
+  if (origin.startsWith('http://localhost:') || origin.startsWith('https://localhost:')) return true;
+  return false;
 }
 
+// Instantiate the AI Service
+const aiService = new GeminiAIService();
+
 /**
- * Interface representing the structured API response.
+ * OPTIONS preflight handler for CORS.
  */
-interface PredictResponse {
-  success: boolean;
-  predictions: PredictionItem[];
-  generalAdvice: string;
-  error?: string;
+export async function OPTIONS() {
+  return new NextResponse(null, { headers: CORS_HEADERS, status: 200 });
 }
 
 /**
  * POST handler for /api/predict.
- * Analyzes crowd telemetry logs using the Gemini API.
- * Provides a local programmatic fallback if GEMINI_API_KEY is not defined.
- *
- * @param request - NextJS Request
- * @returns JSON response containing crowd density predictions
+ * Analyzes crowd telemetry logs using the Gemini API or Heuristic fallback.
+ * Incorporates CORS, CSRF, and Rate Limiting.
  */
-export async function POST(request: Request): Promise<NextResponse<PredictResponse>> {
+export async function POST(request: Request) {
   try {
-    const zones = (await request.json()) as ZoneState[];
+    // 1. CSRF Verification
+    const origin = request.headers.get('origin');
+    if (!isOriginAllowed(origin)) {
+      return NextResponse.json(
+        { success: false, predictions: [], generalAdvice: 'Access forbidden: Unauthorized origin.', error: 'CSRF block' },
+        { status: 403, headers: CORS_HEADERS }
+      );
+    }
+
+    // 2. Rate Limiting Verification
+    const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
+    if (!predictRateLimiter.check(ip)) {
+      return NextResponse.json(
+        {
+          success: false,
+          predictions: [],
+          generalAdvice: 'Too many requests. Please wait a minute and try again.',
+          error: 'Rate limit exceeded',
+        },
+        { status: 429, headers: CORS_HEADERS }
+      );
+    }
+
+    const zones = await request.json();
 
     if (!Array.isArray(zones) || zones.length === 0) {
       return NextResponse.json(
         { success: false, predictions: [], generalAdvice: 'Invalid zone telemetry payload.' },
-        { status: 400 }
+        { status: 400, headers: CORS_HEADERS }
       );
     }
 
-    const geminiKey = process.env.GEMINI_API_KEY;
+    // 3. Delegate to AI Service
+    const aiResponse = await aiService.generateCrowdPrediction(zones);
+    const status = aiResponse.success ? 200 : 500;
 
-    if (geminiKey) {
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
-      const systemInstruction = `You are the Crowd Analytics AI Predictor for MetLife Stadium at FIFA World Cup 2026. Given the following active stands and concourse telemetry, output a valid JSON response containing a forecast for the next 2 hours. Use these EXACT JSON keys: "predictions" (array of items with keys "zone", "predictedDensity", "risk", "recommendation") and "generalAdvice" (string). Ensure risk is one of: "low", "moderate", "high", "critical". Do not include markdown code block formatting in the output, only return raw JSON.`;
-
-      const res = await fetch(geminiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: `${systemInstruction}\n\nTelemetry: ${JSON.stringify(zones)}` }],
-            },
-          ],
-          generationConfig: {
-            maxOutputTokens: 500,
-            temperature: 0.2,
-            responseMimeType: 'application/json',
-          },
-        }),
-      });
-
-      if (res.ok) {
-        const responseData = await res.json();
-        const rawText = responseData?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (rawText) {
-          const parsed = JSON.parse(rawText.trim()) as {
-            predictions: PredictionItem[];
-            generalAdvice: string;
-          };
-          return NextResponse.json({
-            success: true,
-            predictions: parsed.predictions,
-            generalAdvice: parsed.generalAdvice,
-          });
-        }
-      }
-    }
-
-    // Local Programmatic Fallback Prediction Engine
-    const predictions: PredictionItem[] = zones.map((zone) => {
-      // Forecast small random fluctuation or increase
-      const predictedDensity = Math.min(100, Math.max(10, zone.density + Math.floor(Math.random() * 8) - 2));
-      let risk: 'low' | 'moderate' | 'high' | 'critical' = 'low';
-      let recommendation = 'Status normal. Continue monitoring flows.';
-
-      if (predictedDensity > 90) {
-        risk = 'critical';
-        recommendation = `Divert inflow from adjacent turnstiles to secondary concourses. Halt local ticket scans.`;
-      } else if (predictedDensity > 80) {
-        risk = 'high';
-        recommendation = `Deploy auxiliary volunteers to direct traffic. Open gate auxiliary channels.`;
-      } else if (predictedDensity > 55) {
-        risk = 'moderate';
-        recommendation = 'Monitor ticketing gates closely for potential queues.';
-      }
-
-      return {
-        zone: sanitizeInput(zone.name),
-        predictedDensity,
-        risk,
-        recommendation,
-      };
-    });
-
-    const hasCritical = predictions.some((p) => p.risk === 'critical');
-    const generalAdvice = hasCritical
-      ? 'Crowd density is peaking in multiple stands. We recommend activating dynamic perimeter holds at Gate 7 North.'
-      : 'Crowd distributions are within safe operating limits. Maintain standard volunteer checkpoints.';
-
-    return NextResponse.json({
-      success: true,
-      predictions,
-      generalAdvice,
-    });
+    return NextResponse.json(aiResponse, { status, headers: CORS_HEADERS });
   } catch (error) {
     return NextResponse.json(
       {
@@ -137,7 +88,7 @@ export async function POST(request: Request): Promise<NextResponse<PredictRespon
         generalAdvice: 'Operational forecast failed due to telemetry processing error.',
         error: error instanceof Error ? error.message : 'Unknown error',
       },
-      { status: 500 }
+      { status: 500, headers: CORS_HEADERS }
     );
   }
 }

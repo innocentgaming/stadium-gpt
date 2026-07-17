@@ -1,19 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock } from 'lucide-react';
+import { Clock, Users, Brain, AlertTriangle, Zap, Shield, Eye } from 'lucide-react';
 import StatsGrid from '@/components/dashboard/StatsGrid';
 import CrowdAreaChart from '@/components/dashboard/CrowdAreaChart';
 import AlertsWorkloadSection from '@/components/dashboard/AlertsWorkloadSection';
 
 // Initial stats mock setup matching constants
 const initialStats = [
-  { label: 'Active Fans', value: '94,218', change: '+12.3%', up: true, icon: require('lucide-react').Users, color: '#10B981' },
-  { label: 'AI Responses/min', value: '8,432', change: '+34.1%', up: true, icon: require('lucide-react').Brain, color: '#10B981' },
-  { label: 'Active Incidents', value: '3', change: '-23%', up: false, icon: require('lucide-react').AlertTriangle, color: '#F59E0B' },
-  { label: 'Avg Latency', value: '87ms', change: '-18%', up: false, icon: require('lucide-react').Zap, color: '#10B981' },
-  { label: 'Safety Score', value: '98.7%', change: '+0.3%', up: true, icon: require('lucide-react').Shield, color: '#10B981' },
-  { label: 'CV Feeds Active', value: '847', change: '+2', up: true, icon: require('lucide-react').Eye, color: '#10B981' },
+  { label: 'Active Fans', value: '94,218', change: '+12.3%', up: true, icon: Users, color: '#10B981' },
+  { label: 'AI Responses/min', value: '8,432', change: '+34.1%', up: true, icon: Brain, color: '#10B981' },
+  { label: 'Active Incidents', value: '3', change: '-23%', up: false, icon: AlertTriangle, color: '#F59E0B' },
+  { label: 'Avg Latency', value: '87ms', change: '-18%', up: false, icon: Zap, color: '#10B981' },
+  { label: 'Safety Score', value: '98.7%', change: '+0.3%', up: true, icon: Shield, color: '#10B981' },
+  { label: 'CV Feeds Active', value: '847', change: '+2', up: true, icon: Eye, color: '#10B981' },
 ];
 
 const initialAlerts = [

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { fadeInUp } from '@/lib/animations';
 import { AlertTriangle, Users, Car, Leaf, Activity, Bus, UtensilsCrossed } from 'lucide-react';
+import { seededRandom } from '@/lib/utils';
 
 const widgets = [
   {
@@ -17,7 +18,7 @@ const widgets = [
             key={i}
             className="aspect-square rounded-sm"
             style={{
-              background: `rgba(16, 185, 129, ${0.1 + Math.random() * 0.8})`,
+              background: `rgba(16, 185, 129, ${0.1 + seededRandom(i) * 0.8})`,
             }}
           />
         ))}
@@ -60,7 +61,7 @@ const widgets = [
           <div
             key={i}
             className="flex-1 rounded-t bg-emerald-500/40"
-            style={{ height: `${20 + Math.sin(i * 0.8) * 40 + Math.random() * 30}%` }}
+            style={{ height: `${20 + Math.sin(i * 0.8) * 40 + seededRandom(i * 3) * 30}%` }}
           />
         ))}
       </div>

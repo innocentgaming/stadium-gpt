@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Sparkles, X, LucideIcon } from 'lucide-react';
@@ -30,8 +31,51 @@ export default function SidebarMobileOverlay({
   navItems,
   setSidebarOpen,
 }: SidebarMobileOverlayProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const focusableSelectors = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex="0"]';
+    const focusableElements = Array.from(container.querySelectorAll(focusableSelectors)) as HTMLElement[];
+    if (focusableElements.length === 0) return;
+
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    // Focus the first element on mount
+    firstFocusable.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false);
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            lastFocusable.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            firstFocusable.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setSidebarOpen]);
+
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
+    <div ref={containerRef} className="fixed inset-0 z-50 lg:hidden">
       {/* Dimmed backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -44,6 +88,9 @@ export default function SidebarMobileOverlay({
       <motion.aside
         initial={{ x: '-100%' }}
         animate={{ x: 0 }}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation drawer"
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         className="absolute left-0 top-0 bottom-0 w-64 bg-[#0B1D3A] border-r border-white/5 p-4 flex flex-col z-10"
       >
@@ -57,7 +104,8 @@ export default function SidebarMobileOverlay({
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setSidebarOpen(false)}
-            className="p-1 text-text-secondary"
+            className="p-1 text-text-secondary cursor-pointer focus:ring-2 focus:ring-emerald-500/50 rounded"
+            aria-label="Close sidebar"
           >
             <X className="w-5 h-5" />
           </motion.button>

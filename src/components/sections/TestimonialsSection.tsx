@@ -8,13 +8,15 @@ import { Quote } from 'lucide-react';
 
 export default function TestimonialsSection() {
   const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isPaused]);
 
   return (
     <section className="py-24 sm:py-32 relative">
@@ -25,7 +27,16 @@ export default function TestimonialsSection() {
           subtitle="Hear from the people who experience StadiumGPT's impact firsthand."
         />
 
-        <div className="relative glass-strong rounded-2xl p-8 sm:p-12 min-h-[280px]">
+        <div
+          className="relative glass-strong rounded-2xl p-8 sm:p-12 min-h-[280px]"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Fan Testimonials"
+        >
           <Quote className="w-10 h-10 text-blue-500/20 mb-6" />
 
           <AnimatePresence mode="wait">

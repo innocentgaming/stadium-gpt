@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { cvDetections } from '@/lib/constants';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
+import { seededRandom } from '@/lib/utils';
 
 export default function ComputerVisionSection() {
   return (
@@ -40,8 +41,8 @@ export default function ComputerVisionSection() {
                         key={j}
                         className="absolute w-2 h-3 rounded-sm border border-blue-400/60 bg-blue-400/10"
                         style={{
-                          left: `${10 + Math.random() * 80}%`,
-                          top: `${20 + Math.random() * 60}%`,
+                          left: `${10 + seededRandom(j * 2) * 80}%`,
+                          top: `${20 + seededRandom(j * 2 + 1) * 60}%`,
                         }}
                       />
                     ))}

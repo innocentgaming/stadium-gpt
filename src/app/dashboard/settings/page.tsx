@@ -105,6 +105,8 @@ export default function SettingsPage() {
                   {isToggle ? (
                     <button
                       onClick={() => handleToggle(setting.label)}
+                      role="switch"
+                      aria-checked={Boolean(currentValue)}
                       className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors duration-300 ${currentValue ? 'bg-blue-500' : 'bg-white/10'}`}
                       aria-label={`Toggle ${setting.label}`}
                     >
