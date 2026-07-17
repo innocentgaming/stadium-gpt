@@ -225,6 +225,40 @@ StadiumGPT utilizes a modern, robust, and type-safe development stack:
 
 ---
 
+## 🛡️ Enterprise Hardening & FIFA 2026 Problem Statement Connections
+
+StadiumGPT contains functional, real-world implementations specifically tailored to target the operational challenges of the FIFA World Cup 2026 at MetLife Stadium:
+
+### 🌐 1. Multilingual Assistance & Voice AI Ready
+* **Problem**: Fans from 48 qualifying nations face language barrier bottlenecks during navigation or emergency routing.
+* **GenAI Connection**: Toggling the microphone on the **Accessibility Command Center** launches a native web browser `SpeechRecognition` session. Spoken queries in multiple languages are transcribed and matched to dynamic stadium guides, and `SpeechSynthesis` reads directions back aloud.
+* **Location**: [/dashboard/accessibility](file:///d:/fifa/src/app/dashboard/accessibility/page.tsx)
+
+### 📹 2. Crowd Management & Computer Vision (Edge AI)
+* **Problem**: Congestion at turnstiles and seating stands creates security hazards.
+* **GenAI Connection**: The **Edge AI Stream Feed** simulates a real-time CCTV viewport. Operations staff can toggle **YOLOv8 Bounding Boxes** (confidence indicators for crowd clusters and individuals) and **Thermal Flow Overlays** (heatmaps tracking movement directions) to isolate queue blocks.
+* **Location**: [/dashboard/crowd-analytics](file:///d:/fifa/src/app/dashboard/crowd-analytics/page.tsx)
+
+### 📡 3. Operational Intelligence & IoT Digital Twin
+* **Problem**: Section density anomalies and gate closures are reported via disconnected radio channels.
+* **GenAI Connection**: Stands inside the **Live Stadium Map** layout are linked to dynamic sensors. Clicking a stand queries the `/api/metrics` endpoint, returning real-time active fan counts, seating capacity ratios, and generative operational advice.
+* **Location**: [/dashboard/stadium-map](file:///d:/fifa/src/app/dashboard/stadium-map/page.tsx)
+
+### 📋 4. Volunteer Dispatch Scheduler
+* **Problem**: Distributing manual requests (e.g., escorting wheelchair users, translation assistance) to volunteers on foot causes communication delays.
+* **GenAI Connection**: The **Volunteer Command Center** is a stateful coordination dashboard. Dispatchers can select pending matches and dynamically assign tasks to available guides, instantly modifying active workload counts with toast confirmations.
+* **Location**: [/dashboard/volunteers](file:///d:/fifa/src/app/dashboard/volunteers/page.tsx)
+
+### 🔒 5. Enterprise LLM Security Guardrails
+* **Problem**: Public LLM APIs are vulnerable to prompts injecting system instruction overrides (jailbreaks), DDoS, or CSRF.
+* **GenAI Connection**: All LLM routes run behind a multi-layered shield:
+  - **Prompt Guard**: Scans incoming text for adversarial phrases (`ignore all instructions`, `system override`) and returns a prompt guard security block.
+  - **Rate Limiting**: An in-memory sliding-window [InMemoryRateLimiter](file:///d:/fifa/src/lib/rate-limiter.ts) tracks IP requests to prevent API abuse.
+  - **CORS & CSRF origin Checks**: Ensures all inbound API requests match the host domain or localhost development environments.
+* **Location**: [/api/chat](file:///d:/fifa/src/app/api/chat/route.ts), [/api/predict](file:///d:/fifa/src/app/api/predict/route.ts)
+
+---
+
 ## 🚀 Installation & Setup
 
 ### 📋 Prerequisites
